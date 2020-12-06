@@ -54,7 +54,11 @@ M.check_coverage = function(bufnr)
 end
 
 M.get_coverage_percent = function(bufnr)
-  return vim.api.nvim_buf_get_var(bufnr, 'flow_coverage_percent')
+  local status, coverage = pcall(vim.api.nvim_buf_get_var, bufnr, 'flow_coverage_percent')
+  if not status then
+    return nil
+  end
+  return coverage
 end
 
 return M
