@@ -2,7 +2,7 @@
 Neovim plugin to display flow coverage information
 
 ## Requirements
-Neovim 0.5 (nightly)
+Neovim 0.5
 
 ## Installation
 flow-coverage.nvim works with [Pathogen](https://github.com/tpope/vim-pathogen)
