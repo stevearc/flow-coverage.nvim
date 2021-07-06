@@ -12,7 +12,7 @@ M._convert_coverage_to_diagnostics = function(coverage)
   return diagnostics
 end
 
-M._handle_coverage = function(err, _, params, client_id, bufnr)
+vim.lsp.handlers["textDocument/typeCoverage"] = function(err, _, params, client_id, bufnr)
   if err ~= nil then
     error(err)
     return
@@ -25,7 +25,6 @@ M._handle_coverage = function(err, _, params, client_id, bufnr)
 end
 
 M.on_attach = function(_)
-  vim.lsp.handlers["textDocument/typeCoverage"] = M._handle_coverage
   vim.cmd([[
   aug FlowCoverage
     au!
@@ -41,7 +40,13 @@ M.check_coverage = function(bufnr)
       uri = vim.uri_from_bufnr(bufnr),
     },
   }
-  vim.lsp.buf_request(bufnr, "textDocument/typeCoverage", params)
+  for _, client in ipairs(vim.lsp.buf_get_clients()) do
+    -- Would like to use supports_method here, but textDocument/typeCoverage
+    -- isn't advertised properly
+    if client.name == "flow" then
+      client.request("textDocument/typeCoverage", params, nil, vim.api.nvim_get_current_buf())
+    end
+  end
 end
 
 M.get_coverage_percent = function(bufnr)
