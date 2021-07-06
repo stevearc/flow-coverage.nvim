@@ -1,26 +1,18 @@
 # flow-coverage.nvim
-Neovim plugin to display flow coverage information
+Plugin for Neovim's built-in LSP to display flow type coverage as diagnostics
 
 ## Requirements
 Neovim 0.5
 
 ## Installation
-flow-coverage.nvim works with [Pathogen](https://github.com/tpope/vim-pathogen)
 
-```sh
-cd ~/.vim/bundle/
-git clone https://github.com/stevearc/flow-coverage.nvim
-```
+It's a standard neovim plugin. Follow your plugin manager's instructions.
 
-and [vim-plug](https://github.com/junegunn/vim-plug)
-
-```vim
-Plug 'stevearc/flow-coverage.nvim'
-```
+Need a plugin manager? Try [pathogen](https://github.com/tpope/vim-pathogen), [packer.nvim](https://github.com/wbthomason/packer.nvim), [vim-packager](https://github.com/kristijanhusak/vim-packager), [dein](https://github.com/Shougo/dein.vim), or [Vundle](https://github.com/VundleVim/Vundle.vim)
 
 ## Configuration
 
-Step one is to get a Neovim LSP set up, which is beyond the scope of this guide.
+Step one is to get Neovim LSP set up, which is beyond the scope of this guide.
 See [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) for instructions.
 
 After you have a functioning LSP setup, you will need to customize the
