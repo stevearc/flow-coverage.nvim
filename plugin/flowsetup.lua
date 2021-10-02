@@ -17,7 +17,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = function(...)
     bufnr = select(5, ...)
   end
   local client = vim.lsp.get_client_by_id(client_id)
-  if client.name == 'flow' then
+  if client.server_capabilities.typeCoverageProvider then
     flow.check_coverage(bufnr)
   end
 end

@@ -76,9 +76,7 @@ M.check_coverage = function(bufnr)
     },
   }
   for _, client in pairs(vim.lsp.buf_get_clients()) do
-    -- Would like to use supports_method here, but textDocument/typeCoverage
-    -- isn't advertised properly
-    if client.name == "flow" then
+    if client.server_capabilities.typeCoverageProvider then
       client.request("textDocument/typeCoverage", params, nil, vim.api.nvim_get_current_buf())
     end
   end
