@@ -27,7 +27,7 @@ local function convert_coverage_to_diagnostics(coverage)
   end
 end
 
--- callback args changed in Neovim 0.6. See:
+-- callback args changed in Neovim 0.5.1 See:
 -- https://github.com/neovim/neovim/pull/15504
 local function mk_handler(fn)
   return function(...)
@@ -56,7 +56,6 @@ vim.lsp.handlers["textDocument/typeCoverage"] = mk_handler(function(err, result,
 
   local type_diagnostics = convert_coverage_to_diagnostics(result)
   if GENERAL_DIAGNOSTICS then
-    print(string.format("ns: %s, buf: %s, diag: %s", NS, bufnr, vim.inspect(type_diagnostics)))
     vim.diagnostic.set(NS, bufnr, type_diagnostics)
   else
     -- We're using a fake client ID here so the coverage diagnostics don't collide
@@ -67,19 +66,8 @@ vim.lsp.handlers["textDocument/typeCoverage"] = mk_handler(function(err, result,
   vim.api.nvim_buf_set_var(bufnr, "flow_coverage_percent", result.coveredPercent)
 end)
 
-M.on_attach = function(_)
-  local autocmd = GENERAL_DIAGNOSTICS and "DiagnosticsChanged" or "LspDiagnosticsChanged"
-  vim.cmd(string.format(
-    [[
-  aug FlowCoverage
-    au!
-    autocmd User %s lua require'flow'.check_coverage()
-  aug END
-  ]],
-    autocmd
-  ))
-  M.check_coverage()
-end
+-- @deprecated Calling this is no longer required
+M.on_attach = function() end
 
 M.check_coverage = function(bufnr)
   local params = {
